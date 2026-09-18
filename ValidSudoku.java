@@ -1,25 +1,25 @@
-import java.util.HashSet;
-import java.util.Set;
-
 class Solution {
     public boolean isValidSudoku(char[][] board) {
-        Set<String> seen = new HashSet<>();
+        boolean[][] seenRows = new boolean[9][9];
+        boolean[][] seenCols = new boolean[9][9];
+        boolean[][] seenBoxes = new boolean[9][9];
 
-        for (int r = 0; r < 9; r++) {
-            for (int c = 0; c < 9; c++) {
-                char val = board[r][c];
-                if (val == '.') continue;
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (board[row][col] == '.')
+                    continue;
 
-                String row = "row" + r + val;
-                String col = "col" + c + val;
-                String box = "box" + (r / 3) + (c / 3) + val;
+                int digit = board[row][col] - '1';  // 0-8
+                int box = row / 3 * 3 + col / 3;
 
-                if (!seen.add(row) || !seen.add(col) || !seen.add(box)) {
+                if (seenRows[row][digit] || seenCols[col][digit] || seenBoxes[box][digit])
                     return false;
-                }
+
+                seenRows[row][digit] = true;
+                seenCols[col][digit] = true;
+                seenBoxes[box][digit] = true;
             }
         }
-
         return true;
     }
 }
