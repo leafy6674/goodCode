@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <cstdlib>
 
+using namespace std;
+
 struct TreeNode {
     int val;
     TreeNode *left;
@@ -11,23 +13,23 @@ struct TreeNode {
 };
 
 class Solution {
-public:
-    bool isHeightBalanced(TreeNode* root) {
-        return height(root) != -1;
-    }
+ public:
+  bool isHeightBalanced(TreeNode* root) {
+    bool balanced = true;
+    maxDepth(root, balanced);
+    return balanced;
+  }
 
-private:
-    // Returns the height of the subtree, or -1 if it is unbalanced.
-    int height(TreeNode* node) {
-        if (!node) return 0;
-
-        int left = height(node->left);
-        if (left == -1) return -1;
-
-        int right = height(node->right);
-        if (right == -1) return -1;
-
-        if (std::abs(left - right) > 1) return -1;
-        return std::max(left, right) + 1;
-    }
+ private:
+  // Returns the depth of node and sets balanced to false once any subtree is
+  // unbalanced; after that, the remaining nodes are skipped.
+  int maxDepth(TreeNode* node, bool& balanced) {
+    if (node == nullptr || !balanced)
+      return 0;
+    const int leftDepth = maxDepth(node->left, balanced);
+    const int rightDepth = maxDepth(node->right, balanced);
+    if (abs(leftDepth - rightDepth) > 1)
+      balanced = false;
+    return max(leftDepth, rightDepth) + 1;
+  }
 };
