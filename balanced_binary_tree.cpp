@@ -12,7 +12,7 @@ struct TreeNode {
 
 class Solution {
 public:
-    bool isBalanced(TreeNode* root) {
+    bool isHeightBalanced(TreeNode* root) {
         return height(root) != -1;
     }
 
