@@ -1,11 +1,6 @@
 class Solution:
     def digitSquareSum(self, n: int) -> int:
-        _sum = 0
-        while n > 0:
-            last = n % 10
-            n //= 10
-            _sum += last * last
-        return _sum
+        return sum(int(i)**2 for i in str(n))
 
     def isHappy(self, n: int) -> bool:
         seen = set()
