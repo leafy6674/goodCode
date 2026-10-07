@@ -6,28 +6,37 @@ using namespace std;
 class Solution {
 public:
     string reverseWords(string s) {
-        // reverse the whole string
+        removeExtraSpaces(s);
         reverse(s.begin(), s.end());
+        reverseEachWord(s);
+        return s;
+    }
 
-        int n = s.size();
-        int i = 0;
-        for (int l = 0; l < n; ++l) {
-            if (s[l] != ' ') {
-                // separate from the previous word
-                if (i != 0) s[i++] = ' ';
-
-                // copy the word to the write position
-                int r = l;
-                while (r < n && s[r] != ' ') s[i++] = s[r++];
-
-                // reverse the word back to its original spelling
-                reverse(s.begin() + i - (r - l), s.begin() + i);
-
-                // move to the next word
-                l = r;
+private:
+    // drop leading/trailing spaces and collapse runs of spaces into one
+    void removeExtraSpaces(string& s) {
+        int writePos = 0, n = s.size();
+        for (int readPos = 0; readPos < n; ++readPos) {
+            if (s[readPos] != ' ') {
+                if (writePos != 0) s[writePos++] = ' ';
+                while (readPos < n && s[readPos] != ' ') s[writePos++] = s[readPos++];
             }
         }
-        s.erase(s.begin() + i, s.end());
-        return s;
+        s.erase(s.begin() + writePos, s.end());
+    }
+
+    void reverseEachWord(string& s) {
+        int wordStart = 0, wordEnd = 0, n = s.size();
+        while (wordStart < n) {
+            wordStart = wordEnd;
+            while (wordStart < n && s[wordStart] == ' ') {
+                wordStart++;
+            }
+            wordEnd = wordStart;
+            while (wordEnd < n && s[wordEnd] != ' ') {
+                wordEnd++;
+            }
+            reverse(s.begin() + wordStart, s.begin() + wordEnd);
+        }
     }
 };
