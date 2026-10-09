@@ -4,4 +4,4 @@ class Solution:
             return s
 
         k %= len(s)
-        return s[-k:] + s[:-k] if k else s
+        return s[-k:] + s[:-k]
