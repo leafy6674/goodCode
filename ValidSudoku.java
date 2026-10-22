@@ -13,12 +13,12 @@ class Solution {
                 final int box = (r/3) * 3 + c/3;
                 final int bit = 1 << (ch - '1');
 
-                if ((rows[r]&bit | cols[c]&bit | boxes[box]&bit) > 0)
+                if ((rows[r] & bit | cols[c] & bit | boxes[box] & bit) != 0)
                     return false;
 
-                rows[r] = rows[r] | bit;
-                cols[c] = cols[c] | bit;
-                boxes[box] = boxes[box] | bit;
+                rows[r] |= bit;
+                cols[c] |= bit;
+                boxes[box] |= bit;
             }
         }
 
