@@ -1,25 +1,27 @@
 class Solution {
     public boolean isValidSudoku(char[][] board) {
-        boolean[][] seenRows = new boolean[9][9];
-        boolean[][] seenCols = new boolean[9][9];
-        boolean[][] seenBoxes = new boolean[9][9];
+        int[] rows = new int[9];
+        int[] cols = new int[9];
+        int[] boxes = new int[9];
 
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                if (board[row][col] == '.')
-                    continue;
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                final char ch = board[r][c];
+                if (ch == '.') continue;
 
-                int digit = board[row][col] - '1';  // 0-8
-                int box = row / 3 * 3 + col / 3;
+                final int bit = 1 << (ch - '1');
+                // '1'..'9' -> bit 0..8
+                final int box = (r / 3) * 3 + c / 3;
 
-                if (seenRows[row][digit] || seenCols[col][digit] || seenBoxes[box][digit])
+                if ((rows[r]&bit | cols[c]&bit | boxes[box]&bit) != 0)
                     return false;
 
-                seenRows[row][digit] = true;
-                seenCols[col][digit] = true;
-                seenBoxes[box][digit] = true;
+                rows[r] |= bit;
+                cols[c] |= bit;
+                boxes[box] |= bit;
             }
         }
+
         return true;
     }
 }
