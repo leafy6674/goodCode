@@ -6,4 +6,7 @@ class Solution:
         word_count = Counter("balloon")
         text_count = Counter(text)
 
-        return min(text_count[c] // n for c, n in word_count.items())
+        return min(
+            text_count[c] // n
+            for c, n in word_count.items()
+        )
